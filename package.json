@@ -20,6 +20,12 @@
     "play"
   ],
   "dependencies": {
-    "angular": "^1.6.6"
+    "angular": "^1.6.6",
+    "cordova-plugin-camera": "^2.4.1"
+  },
+  "cordova": {
+    "plugins": {
+      "cordova-plugin-camera": {}
+    }
   }
 }
