@@ -32,6 +32,8 @@ var app = {
 
     // Update DOM on a Received Event
     receivedEvent: function(id) {
+        // Inicializamos AngularJS
+        this.initAngular();
         var parentElement = document.getElementById(id);
         var listeningElement = parentElement.querySelector('.listening');
         var receivedElement = parentElement.querySelector('.received');
@@ -40,7 +42,24 @@ var app = {
         receivedElement.setAttribute('style', 'display:block;');
 
         console.log('Received Event: ' + id);
+    },
+
+    // Inicializa AngularJS
+    initAngular: function() {                
+        function MainController() {
+            var vm = this;
+            vm.title = "Play Fútbol";
+            vm.viewMain = viewMain;
+
+        };        
+        angular.module('app', [])
+            .controller('MainController', MainController);
+        angular.bootstrap(document, ['app']);
     }
 };
+
+var viewMain = {
+    title: 'Main View'
+}
 
 app.initialize();
