@@ -1,4 +1,4 @@
-<!-- <!DOCTYPE html>
+<!DOCTYPE html>
 <!--
     Licensed to the Apache Software Foundation (ASF) under one
     or more contributor license agreements.  See the NOTICE file
@@ -45,29 +45,30 @@
     <title>Play Fútbol</title>
 </head>
 
-<body>
+<body>        
     <div id="main" ng-controller="MainController as main">
-        <div class="app" ng-show="false">
-            <h1>Play Fútbol</h1>
+        <div class="app" ng-show="main.currentView == main.showView" >
+            <h1>{{ main.title }}</h1>
             <div id="deviceready" class="blink">
                 <p class="event listening">Connecting to Device</p>
-                <p class="event received">Device is Ready</p>
+                <p class="event received">Play Fútbol ready</p>
             </div>
         </div>
-        <div id="login" ng-show="false">
-            <h1>{{ main.viewMain.title }}</h1>
+        <div id="login" ng-show="main.currentView == main.loginView">
+            <h1>{{ main.currentView.title }}</h1>
             <div class="login-page">
                 <div class="form">
                     <form class="login-form">
                         <input type="text" placeholder="username" required autofocus/>
                         <input type="password" placeholder="password" required/>
-                        <button>login</button>
+                        <button ng-click="main.currentView = main.dashboardView">login</button>
                         <!--<p class="message">Not registered? <a href="#">Create an account</a></p>-->
                     </form>
                 </div>
             </div>
         </div>
-        <div id="dashboard" ng-show="false">
+        <div id="dashboard" ng-show="main.currentView == main.dashboardView">                      
+            <!-- Navbar -->>
             <nav class="navbar navbar-default">
                 <div class="container-fluid">
                     <div class="navbar-header">
@@ -81,9 +82,8 @@
                         <span class="navbar-brand" href="#">
                             <img alt="Play Fútbol" src="img/play-futbol.png" width="40" height="30">
                         </span>
-                        <sapan class="navbar-brand">Play Fútbol</sapan>
-                    </div>
-                    <!-- Collect the nav links, forms, and other content for toggling -->
+                        <sapan class="navbar-brand">{{ main.title }}</sapan>
+                    </div>                    
                     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">                        
                         <ul class="nav navbar-nav navbar-right">                            
                             <li class="dropdown">
@@ -93,13 +93,10 @@
                                 </a>
                                 <ul class="dropdown-menu">
                                     <li>
-                                        <a href="#">River VS. Boca</a>
+                                        <a href="#" ng-click="main.goMatch(0)">{{ main.getMatches()[0].tit  le }}</a>
                                     </li>
                                     <li>
-                                        <a href="#">Racing VS. Independiente</a>
-                                    </li>
-                                    <li>
-                                        <a href="#">San Lorenzo VS. Huracán</a>
+                                        <a href="#" ng-click="main.goMatch(1)">{{ main.getMatches()[1].title }}</a>
                                     </li>                                    
                                 </ul>
                             </li>
@@ -107,101 +104,69 @@
                                 <a href="#">Cerrar sesión</a>
                             </li>
                         </ul>
-                    </div>
-                    <!-- /.navbar-collapse -->
-                </div>
+                    </div>                 
+                </div>                
+            </nav>
 
-            </nav>
-        </div>
-        <div id="match-1" ng-show="true">            
-            <nav class="navbar navbar-default">                    
-                        <div class="container-fluid">
-                            <div class="navbar-header">
-                                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1"
-                                    aria-expanded="false">
-                                    <span class="sr-only">Toggle navigation</span>      
-                                    <span class="icon-bar"></span>
-                                    <span class="icon-bar"></span>
-                                    <span class="icon-bar"></span>                      
-                                </button>
-                                <span class="navbar-brand" href="#">
-                                    <img alt="Play Fútbol" src="img/play-futbol.png" width="40" height="30">
-                                </span>
-                                <sapan class="navbar-brand">Play Fútbol</sapan>
-                            </div>
-                            <!-- Collect the nav links, forms, and other content for toggling -->
-                            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">                        
-                                <ul class="nav navbar-nav navbar-right">                            
-                                    <li class="dropdown">
-                                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
-                                            Partidos asignados
-                                            <span class="caret"></span>
-                                        </a>
-                                        <ul class="dropdown-menu">
-                                            <li>
-                                                <a href="#">River VS. Boca</a>
-                                            </li>
-                                            <li>
-                                                <a href="#">Racing VS. Independiente</a>
-                                            </li>
-                                            <li>
-                                                <a href="#">San Lorenzo VS. Huracán</a>
-                                            </li>                                    
-                                        </ul>
-                                    </li>
-                                    <li>
-                                        <a href="#">Cerrar sesión</a>
-                                    </li>
-                                </ul>
-                            </div>
-                            <!-- /.navbar-collapse -->
-                        </div>        
-            </nav>
-            <!-- Default panel contents -->
-                        
-                    <div class="panel panel-success">
-                            <div class="panel-heading">River VS. Boca</div>
-                                <div class="panel-body">
-                                <p>Estadio: Monumental. Fecha: 28 de Octubre de 2017. Hora de inicio: 15:00 hs.</p>
-                                </div>
+            <!-- Notificaciones del partido -->
+            <div id="match" class="container-fluid bg-success" ng-show="main.showMatch">
+                <div class="panel panel-success">
+                    <div class="panel-heading"> {{ main.currentMatch.title }} </div>
+                    <div class="panel-body">
+                        <p>{{ main.currentMatch.info }}</p>
+                    </div>                    
+                    <!-- Table -->
+                    <table id="match-table" class="table">
+                        <thead>
+                            <th>#</th>
+                            <th>Evento</th>
+                            <th>Descripción</th>
+                        </thead>
+                        <tbody>
                             
-                                <!-- Table -->
-                                <table class="table">
-                                    <thead>
-                                        <th>#</th>
-                                        <th>Evento</th>
-                                        <th>Descripción</th>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                            <td>1</td>
-                                            <td>icono</td>
-                                            <td>narración</td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    <div class="bottom-align-text">
-                            <div class="btn-group btn-group-justified align-bottom" role="group" aria-label="...">
-                                    <div class="btn-group" role="group">
-                                      <button type="button" class="btn btn-default">Goles</button>
-                                    </div>
-                                    <div class="btn-group" role="group">
-                                      <button type="button" class="btn btn-default">Tarjetas</button>
-                                    </div>
-                                    <div class="btn-group" role="group">
-                                      <button type="button" class="btn btn-default">Partido</button>
-                                    </div>
-                                    <div class="btn-group" role="group">
-                                        <button type="button" class="btn btn-default">Capturas</button>
-                                    </div>
-                            </div>
-                    </div>            
-            
-        </div>
+                        </tbody>
+                    </table>
+                </div>
+            </div>                      
 
+            <!-- Comandos para notificaciones -->
+            <div class="btn-group btn-group-justified align-bottom bottom-align-text" ng-show="main.showMatch" role="group" aria-label="...">
+                <div class="btn-group" role="group">
+                    <button type="button" class="btn btn-default">Goles</button>
+                </div>
+                <div class="btn-group" role="group">
+                    <button type="button" class="btn btn-default">Tarjetas</button>
+                </div>
+                <div class="btn-group" role="group">
+                    <button type="button" class="btn btn-default">Partido</button>
+                </div>
+                <div class="btn-group" role="group">
+                    <button type="button" class="btn btn-default" onclick="openCamera(event)">Capturas</button>
+                </div>                  
+            </div>            
+        </div>        
     </div>
+    
+    <!-- Modal -->
+    <div class="modal fade" id="input-modal" tabindex="-1" role="dialog" aria-labelledby="id-modal-label">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title" id="id-modal-label">Notificación</h4>
+                    </div>
+
+                    <div class="modal-body">
+                        ... this is the body
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+                        <button type="button" class="btn btn-primary">Notificar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
 
     <script type="text/javascript" src="cordova.js"></script>
     <script type="text/javascript" src="js/index.js"></script>
@@ -211,4 +176,4 @@
     <script type="text/javascript" src="js/bootstrap.min.js"></script>
 </body>
 
-</html> -->
+</html>

@@ -43,6 +43,7 @@ var app = {
 
         console.log('Received Event: ' + id);
         console.log(navigator.camera);
+        //document.app.main.currentView = loginView;
     },
 
     // Inicializa AngularJS
@@ -50,17 +51,100 @@ var app = {
         function MainController() {
             var vm = this;
             vm.title = "Play Fútbol";
-            vm.viewMain = viewMain;
-
+            vm.currentView = loginView;
+            vm.loginView = loginView;
+            vm.showView = showView;
+            vm.dashboardView = dashboardView;
+            
+            vm.showMatch = false;
+            vm.currentMatch = null;
+            
+            vm.getMatches = function() {
+                return matches;
+            }
+            
+            vm.goMatch = function(id) {
+                console.log('init go');
+                var current = matches[id];
+                this.currentMatch = current;
+                this.showMatch = true;
+                console.log(current.title);
+                console.log('finish go');
+                return current;                
+            }
         };        
+
         angular.module('app', [])
-            .controller('MainController', MainController);
+            .controller('MainController', MainController)
+            .controller('MacthController', MatchController);
         angular.bootstrap(document, ['app']);
     }
 };
 
-var viewMain = {
-    title: 'Main View'
+// Views
+var showView = {
+    id: 'show'    
 }
+
+var loginView = {
+    id: 'login',
+    title: 'Play Fútbol'
+}
+
+var dashboardView = {
+    id: 'dashboard'
+}
+
+var matchOne = {
+    id: 'one', 
+    title: 'River vs. Boca',
+    info: 'Estadio: Monumental. Fecha: 28 de Octubre de 2017. Hora de inicio: 15:00 hs.' 
+}
+
+var matchTwo = {
+    id: 'two', 
+    title: 'Racing vs. Independiente',
+    info: 'Estadio: Cilindro de Avellaneda. Fecha: 28 de Octubre de 2017. Hora de inicio: 19:00 hs.' 
+}
+
+var matches = [ matchOne, matchTwo];
+
+function openCamera(selection) {    
+    var srcType = Camera.PictureSourceType.CAMERA;
+    var options = setOptions(srcType);
+    //var func = createNewFileEntry;
+
+    navigator.camera.getPicture(function cameraSuccess(imageUri) {
+
+        displayImage(imageUri);
+        // You may choose to copy the picture, save it somewhere, or upload.
+        //func(imageUri);
+
+    }, function cameraError(error) {
+        console.debug("Unable to obtain picture: " + error, "app");
+
+    }, options);
+}
+
+function setOptions(srcType) {
+    var options = {
+        // Some common settings are 20, 50, and 100
+        quality: 50,
+        destinationType: Camera.DestinationType.FILE_URI,
+        // In this app, dynamically set the picture source, Camera or photo gallery
+        sourceType: srcType,
+        encodingType: Camera.EncodingType.JPEG,
+        mediaType: Camera.MediaType.PICTURE,
+        allowEdit: true,
+        correctOrientation: true  //Corrects Android orientation quirks
+    }
+    return options;
+}
+
+function displayImage(imgUri) {
+    
+        var elem = document.getElementById('imageFile');
+        elem.src = imgUri;
+    }
 
 app.initialize();
