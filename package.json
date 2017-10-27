@@ -5,6 +5,11 @@
   "description": "A sample Apache Cordova application that responds to the deviceready event.",
   "main": "index.js",
   "scripts": {
+    "cp-bt-js": "cp ./node_modules/bootstrap/dist/js/*.min.js ./www/js/",
+    "cp-bt-css": "cp ./node_modules/bootstrap/dist/css/*.min.css ./www/css/",
+    "cp-bt-fonts": "cp -r ./node_modules/bootstrap/dist/fonts ./www/",
+    "cp-bootstrap": "npm run cp-bt-js && npm run cp-bt-css && npm run cp-bt-fonts",
+    "cp-jquery": "cp -r ./node_modules/jquery/dist/*.min.js ./www/js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Apache Cordova Team",
@@ -21,7 +26,7 @@
   ],
   "dependencies": {
     "angular": "^1.6.6",
-    "bootstrap": "^4.0.0-beta.2",
+    "bootstrap": "^3.3.7",
     "cordova-android": "~6.3.0",
     "cordova-browser": "~5.0.1",
     "cordova-plugin-browsersync": "^1.1.0",
