@@ -4,9 +4,9 @@
 
     angular
         .module('app')
-        .controller('MainController', MainController);
+        .controller('MatchController', MatchController);
 
-    controller.$inject = ['match'];
+    MatchController.$inject = ['match'];
     
     function MatchController(match) {
         var vm  = this;           

@@ -41,7 +41,21 @@
 </head>
 
 <body>        
-    <div id="main" ng-controller="MainController as main">
+    <div ng-controller="LoginController as vm" >
+        <h1>{{ vm.title }}</h1>
+        <div class="login-page">
+            <div class="form">
+                <form class="login-form" action="#dashboard">
+                    <input type="text" placeholder="username" required autofocus/>
+                    <input type="password" placeholder="password" required/>
+                    <button>login</button>
+                    <!--<p class="message">Not registered? <a href="#">Create an account</a></p>-->
+                </form>
+            </div>
+        </div>
+    </div>
+    <ng-view></ng-view>
+    <!-- <div id="main" ng-controller="MainController as main">
         <div class="app" ng-show="main.currentView == main.showView" >
             <h1>{{ main.title }}</h1>
             <div id="deviceready" class="blink">
@@ -49,13 +63,14 @@
                 <p class="event received">Play Fútbol ready</p>
             </div>
         </div>
-        <div id="login" ng-show="main.currentView == main.loginView">
+        <ng-view></ng-view>
+        <div id="login" ng-show="main.currentView == main.loginView"> -->
             <!-- Login -->
-        </div>
-        <div id="dashboard" ng-show="main.currentView == main.dashboardView">                      
+        <!-- </div>
+        <div id="dashboard" ng-show="main.currentView == main.dashboardView">                       -->
             <!-- Dashboard -->
-        </div>        
-    </div>
+        <!-- </div>        
+    </div> -->
     
     <!-- Modal -->
     <div class="modal fade" id="input-modal" tabindex="-1" role="dialog" aria-labelledby="id-modal-label">
@@ -81,6 +96,7 @@
     <script type="text/javascript" src="cordova.js"></script>
     <script type="text/javascript" src="js/index.js"></script>
     <script type="text/javascript" src="js/angular.js"></script>    
+    <script type="text/javascript" src="js/angular-route.js"></script>
     <script type="text/javascript" src="js/jquery.min.js"></script>
     <script type="text/javascript" src="js/bootstrap.min.js"></script>
 </body>

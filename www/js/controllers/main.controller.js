@@ -6,7 +6,7 @@
         .module('app')
         .controller('MainController', MainController);
 
-    controller.$inject = ['$location'];
+    MainController.$inject = ['$location'];
 
     function MainController($location) {
         var vm = this;

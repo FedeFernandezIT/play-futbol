@@ -34,12 +34,7 @@ var app = {
     receivedEvent: function(id) {
         // Inicializamos AngularJS
         this.initAngular();
-        var parentElement = document.getElementById(id);
-        var listeningElement = parentElement.querySelector('.listening');
-        var receivedElement = parentElement.querySelector('.received');
-
-        listeningElement.setAttribute('style', 'display:none;');
-        receivedElement.setAttribute('style', 'display:block;');
+        
 
         console.log('Received Event: ' + id);
         console.log(navigator.camera);
@@ -47,14 +42,101 @@ var app = {
     },
 
     // Inicializa AngularJS
-    initAngular: function() {                
-        // Aquí iba MainController
-        
-        // aquí iba MatchController
-
-        // Aquí módulo
-    }
+    initAngular: initializeAngularJs
 };
+
+
+// Iniciamos AngularJS
+function initializeAngularJs() {    
+    
+    angular
+        .module('app', ['ngRoute'])
+        .controller('MainController', MainController)
+        .controller('LoginController', LoginController)
+        .controller('DashboardController', DashboardController)
+        .controller('MatchController', MatchController)
+        .config(routing);
+        ;
+
+     function MainController() {
+         var vm = this;
+         vm.title = "Play Fútbol";
+         vm.currentView = loginView;
+         vm.loginView = loginView;
+         vm.showView = showView;
+         vm.dashboardView = dashboardView; 
+     };
+        
+    function LoginController() {        
+        var vm = this;
+        vm.title = 'Inicie sesión de usuario'                
+    };
+
+    DashboardController.inject = ['nameApp'];
+    function DashboardController(nameApp) {
+        var vm = this;
+        vm.nameApp = nameApp
+         vm.showMatch = false;
+
+        vm.showMatch = false;
+        vm.currentMatch = null;
+        
+        vm.getMatches = fetchMatches;
+        vm.goMatch =  viewMatch;
+
+        function fetchMatches() {
+            return matches;
+        };
+
+        function viewMatch (id) {
+            console.log('init go');
+            var current = matches[id];
+            this.currentMatch = current;
+            this.showMatch = true;
+            console.log(current.title);
+            console.log('finish go');
+            return current;                
+        };        
+    };
+
+    MatchController.$inject = ['match'];        
+    function MatchController(match) {
+        var vm  = this;           
+        vm.match = match;
+        
+        vm.postGol = proccessGol;
+        vm.postCard = proccessCard;
+        vm.postRound = proccessRound;
+        vm.postSnapshot = snapshot;
+    };
+    
+    function routing($routeProvider) {
+        $routeProvider
+        .when('/main', {
+            templateUrl: '../views/main.html',
+            controller: 'MainController',
+            controllerAs: 'vm',        
+        })
+        .when('/login', {
+            templateUrl: '../views/login.html',
+            controller: 'LoginController',
+            controllerAs: 'vm',        
+        })
+        .when("/dashboard", {
+            templateUrl: '../views/dashboard.html',
+            controller: "DashboardController",
+            controllerAs: 'vm'
+        })
+        .when("/match", {
+            templateUrl: '../views/match.html',
+            controller: "MatchController",
+            controllerAs: 'vm'
+        })
+    };
+
+    angular.bootstrap(document, ['app']);
+    
+}
 
 // Views
 var showView = {
@@ -91,6 +173,8 @@ function proccessGol(id) {
 function showModal(id) {
     
 }
+
+
 function openCamera(selection) {    
     var srcType = Camera.PictureSourceType.CAMERA;
     var options = setOptions(srcType);
@@ -117,10 +201,10 @@ function setOptions(srcType) {
         sourceType: srcType,
         encodingType: Camera.EncodingType.JPEG,
         mediaType: Camera.MediaType.PICTURE,
-        allowEdit: true,
+        allowEdit: false,
         correctOrientation: true  //Corrects Android orientation quirks
     }
-    return options;
+    return options;    
 }
 
 function displayImage(imgUri) {
