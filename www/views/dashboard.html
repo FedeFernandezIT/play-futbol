@@ -1,0 +1,62 @@
+<div ng-controller="DashboardController as vm">
+    <!-- Navbar -->
+    <nav class="navbar navbar-default">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1"
+                    aria-expanded="false">
+                    <span class="sr-only">Toggle navigation</span>      
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>                      
+                </button>
+                <span class="navbar-brand" href="#">
+                    <img alt="Play Fútbol" src="img/play-futbol.png" width="40" height="30">
+                </span>
+                <sapan class="navbar-brand">{{ vm.title }}</sapan>
+            </div>                    
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">                        
+                <ul class="nav navbar-nav navbar-right">                            
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                            Partidos asignados
+                            <span class="caret"></span>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li>
+                                <a href="#" ng-click="vm.goMatch(0)">{{ vm.getMatches()[0].title }}</a>
+                            </li>
+                            <li>
+                                <a href="#" ng-click="vm.goMatch(1)">{{ vm.getMatches()[1].title }}</a>
+                            </li>                                    
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="#">Cerrar sesión</a>
+                    </li>
+                </ul>
+            </div>                 
+        </div>                
+    </nav>
+
+    <!-- Notificaciones del partido -->
+    <div id="match" class="container-fluid bg-success" ng-show="vm.showMatch">
+        <!-- View match -->
+    </div>                      
+
+    <!-- Comandos para notificaciones -->
+    <div class="btn-group btn-group-justified align-bottom bottom-align-text" ng-show="vm.showMatch" role="group" aria-label="...">
+        <div class="btn-group" role="group">
+            <button type="button" class="btn btn-default">Goles</button>
+        </div>
+        <div class="btn-group" role="group">
+            <button type="button" class="btn btn-default">Tarjetas</button>
+        </div>
+        <div class="btn-group" role="group">
+            <button type="button" class="btn btn-default">Partido</button>
+        </div>
+        <div class="btn-group" role="group">
+            <button type="button" class="btn btn-default" onclick="openCamera(event)">Capturas</button>
+        </div>                  
+    </div>            
+</div>        

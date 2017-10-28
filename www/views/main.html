@@ -1,0 +1,22 @@
+<!-- View main.html -->
+<div id="main" ng-controller="MainController as vm">
+    <!-- View de carga inicial -->
+    <div class="app" ng-show="vm.currentView == vm.showView" >        
+        <h1>{{ vm.title }}</h1>
+        <div id="deviceready" class="blink">
+            <p class="event listening">Connecting to Device</p>
+            <p class="event received">Play Fútbol ready</p>
+        </div>
+    </div>
+    
+    <!-- View login -->
+    <div ng-show="vm.currentView == vm.loginView">
+
+    </div>
+
+    <!-- View dashboard -->
+    <div ng-show="vm.currentView == vm.dashboardView">
+
+    </div>
+    
+</div>

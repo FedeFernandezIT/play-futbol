@@ -1,0 +1,13 @@
+<div ng-controller="LoginController as vm">
+    <h1>{{ vm.title }}</h1>
+    <div class="login-page">
+        <div class="form">
+            <form class="login-form">
+                <input type="text" placeholder="username" required autofocus/>
+                <input type="password" placeholder="password" required/>
+                <button ng-click="main.currentView = main.dashboardView">login</button>
+                <!--<p class="message">Not registered? <a href="#">Create an account</a></p>-->
+            </form>
+        </div>
+    </div>
+</div>

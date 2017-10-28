@@ -48,36 +48,11 @@ var app = {
 
     // Inicializa AngularJS
     initAngular: function() {                
-        function MainController() {
-            var vm = this;
-            vm.title = "Play Fútbol";
-            vm.currentView = loginView;
-            vm.loginView = loginView;
-            vm.showView = showView;
-            vm.dashboardView = dashboardView;
-            
-            vm.showMatch = false;
-            vm.currentMatch = null;
-            
-            vm.getMatches = function() {
-                return matches;
-            }
-            
-            vm.goMatch = function(id) {
-                console.log('init go');
-                var current = matches[id];
-                this.currentMatch = current;
-                this.showMatch = true;
-                console.log(current.title);
-                console.log('finish go');
-                return current;                
-            }
-        };        
+        // Aquí iba MainController
+        
+        // aquí iba MatchController
 
-        angular.module('app', [])
-            .controller('MainController', MainController)
-            .controller('MacthController', MatchController);
-        angular.bootstrap(document, ['app']);
+        // Aquí módulo
     }
 };
 
@@ -109,6 +84,13 @@ var matchTwo = {
 
 var matches = [ matchOne, matchTwo];
 
+function proccessGol(id) {
+        
+}
+
+function showModal(id) {
+    
+}
 function openCamera(selection) {    
     var srcType = Camera.PictureSourceType.CAMERA;
     var options = setOptions(srcType);
